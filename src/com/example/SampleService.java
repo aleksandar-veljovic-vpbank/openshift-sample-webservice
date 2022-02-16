@@ -1,5 +1,8 @@
 package com.example;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,19 @@ import com.google.gson.GsonBuilder;
 
 @Path("/sample-service")
 public class SampleService {
+
+	private static final Connection CONN;
+
+	static {
+		try {
+			CONN = DriverManager.getConnection(System.getenv("OPENSHIFT_DATABASE_URL"),
+					System.getenv("OPENSHIFT_DATABASE_USER"), System.getenv("OPENSHIFT_DATABASE_PASSWORD"));
+
+			System.out.println(CONN.toString());
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	@GET
 	@Path("/all-persons")
