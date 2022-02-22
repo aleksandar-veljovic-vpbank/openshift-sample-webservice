@@ -37,6 +37,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<sourceDirectory>${basedir}/src</sourceDirectory>
 		<resources>
 			<resource>
