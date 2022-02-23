@@ -14,8 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.google.gson.GsonBuilder;
-
 @Path("/sample-service")
 public class SampleService {
 
@@ -37,7 +35,7 @@ public class SampleService {
 	@GET
 	@Path("/all-persons")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllPersons() {
+	public List<Person> getAllPersons() {
 		try (Statement stmt = CONNECTION.createStatement();) {
 			List<Person> dbPersons = new ArrayList<>();
 
@@ -46,7 +44,7 @@ public class SampleService {
 				dbPersons.add(new Person(rs.getString("firstname"), rs.getString("lastname")));
 			}
 
-			return new GsonBuilder().setPrettyPrinting().create().toJson(dbPersons);
+			return dbPersons;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
